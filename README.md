@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Happy Birthday Acipaaa</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --pink: #ff4da6;
+      --soft-pink: #ffd6e8;
+      --bg1: #fff1f8;
+      --bg2: #f9e9fb;
+      --text-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: radial-gradient(rgba(255,255,255,0.25) 1px, transparent 1px);
+      background-size: 10px 10px;
+      opacity:0.6;
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+
+    .stage{
+      position:relative;
+      width: min(920px, 94vw);
+      height: min(640px, 86vh);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:18px;
+      text-align:center;
+      padding:28px;
+      box-sizing:border-box;
+    }
+
+    .bg-balloon{
+      position:absolute;
+      width: 18px;
+      height: 24px;
+      background: linear-gradient(180deg, #ffd2e8, #ffb6d6);
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity:0.9;
+      transform-origin:center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .bg-balloon::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:100%;
+      transform:translateX(-50%);
+      width:2px;height:18px;background:#e0a9c0;border-radius:2px;
+    }
+
+    #text {
+      z-index:5;
+      color: var(--pink);
+      font-weight:700;
+      font-size: clamp(18px, 3.2vw, 30px);
+      padding: 14px 20px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      max-width: 90%;
+      transition: opacity .6s ease, transform .4s ease;
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    #text.show { opacity:1; transform: translateY(0); }
+    #text.hide { opacity:0; transform: translateY(6px); }
+
+    .center-balloon {
+      position:absolute;
+      width:140px;
+      height:180px;
+      background: linear-gradient(180deg,#ffb6d6,#ff84c6);
+      border-radius:60px 60px 60px 60px / 90px 90px 60px 60px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:6;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .3s;
+    }
+    .center-balloon .string{
+      position:absolute; bottom:-28px; width:2px; height:40px; background:#d39fb6;
+    }
+    .center-balloon.show { transform: translate(-50%,-50%) scale(1); }
+    .pop-anim{ animation: popScale .45s forwards; }
+    @keyframes popScale {
+      0% { transform: translate(-50%,-50%) scale(1); opacity:1; }
+      60% { transform: translate(-50%,-50%) scale(1.8); opacity:.6; }
+      100% { transform: translate(-50%,-50%) scale(0.01); opacity:0; }
+    }
+
+    .pixel-cake {
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%,-50%) scale(0.6);
+      width:200px;
+      height:160px;
+      display:grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-auto-rows: 16px;
+      gap:0;
+      z-index:7;
+      opacity:0;
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.2,1);
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.12));
+    }
+    .pixel-cake.show { opacity:1; transform: translate(-50%,-50%) scale(1); }
+    .pixel { width:100%; height:100%; box-sizing:border-box; }
+    .p-0{ background: transparent; }
+    .p-c{ background: #fff3f8; }
+    .p-1{ background: #ffc7df; }
+    .p-2{ background: #ff8fbf; }
+    .p-3{ background: #e25b9a; }
+    .p-4{ background: #ffd966; }
+    .p-5{ background: #ff6f9a; }
+    .p-6{ background: #8b3a5a; }
+    .p-7{ background: #f4e1f3; }
+    .p-8{ background: #ffecf5; }
+
+    /* lilin glow */
+    .flame {
+      position:absolute;
+      top:-18px; left:50%;
+      transform:translateX(-50%);
+      width:16px; height:24px;
+      background: radial-gradient(circle at 50% 60%, gold, orange, transparent);
+      border-radius:50% 50% 50% 50%;
+      animation: flicker .25s infinite alternate;
+      opacity:0.9;
+      z-index:8;
+    }
+    @keyframes flicker {
+      from { transform:translateX(-50%) scale(1); opacity:0.9; }
+      to { transform:translateX(-50%) scale(1.2); opacity:0.6; }
+    }
+
+    .confetti {
+      position:absolute;
+      width:10px;height:10px;border-radius:2px;z-index:8;
+      animation: confettiFall 1800ms linear forwards;
+    }
+    @keyframes confettiFall {
+      from { transform: translateY(-20vh) rotate(0deg); opacity:1; }
+      to { transform: translateY(70vh) rotate(720deg); opacity:0; }
+    }
+    .hint { position: absolute; bottom:12px; font-size:12px; color: #ff6aa8; opacity:0.8; left:50%; transform:translateX(-50%); z-index:9; }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div id="text" class="show">klik dimana ajaaa</div>
+
+    <div id="centerBalloon" class="center-balloon" aria-hidden="true">
+      <div class="string"></div>
+    </div>
+
+    <div id="pixelCake" class="pixel-cake" aria-hidden="true"></div>
+    <!-- lilin api -->
+    <div id="flame" class="flame" style="display:none;"></div>
+
+    <div class="hint">klik di mana saja untuk lanjut →</div>
+  </div>
+
+  <audio id="bgm" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/02/28/audio_205b32b93f.mp3?filename=a-thousand-years-piano-cover-14190.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="popSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e556ebf1c.mp3?filename=balloon-pop-39632.mp3" type="audio/mpeg">
+  </audio>
+
+<script>
+  const messages = [
+    "Happy Birthday acipaaa 🎉","Cieee nungguin aku ngucapin yaa",
+    "Cieee juga, sekarang udah dewasa","Dari aku cuman yaa",
+    "Jangan bergadang teruss","Jangan galau wae, mentang mentang LDR. Semua posting ulang nya galau semua. Gumoh",
+    "Jangan ngerasa sendiri. Masih ada aku walau telat bales dikit lahh",
+    "Jangan lupa makann, makan nasii jangan tiba tiba puasa makan nasi doang",
+    "Jangan insecure, cantik gitu acipa mahhh","Apa lagi yak","Ohhhhh",
+    "Jangan kangen ka akunya maap lagi sibuk","Hehehe",
+    "Pokoknya semoga semua doa-doa baik tercapai yaa 🤍","Semoga sehat terus, dimudahkan semua urusannya",
+    "Semoga masih jadi anak kicik yang suka ceritaaA","Jangan sering nangis, nanti matanya bengkak hehe",
+    "Tetep jadi acipa yang aku kenal, jangan berubah","Aku bangga punya kamu",
+    "Bangga bangetttt","Ga dewasa deng, masih bayi kan???","Maaf ya lama ngucapinnya",
+    "Pengen yang terakhir jadi yang ngucapin juga 💌","🎈🎈🎈"
+  ];
+
+  let idx = -1;
+  const textEl = document.getElementById('text');
+  const centerBalloon = document.getElementById('centerBalloon');
+  const pixelCake = document.getElementById('pixelCake');
+  const flame = document.getElementById('flame');
+  const popSound = document.getElementById('popSound');
+  const stage = document.getElementById('stage');
+  const bgm = document.getElementById('bgm');
+
+  function spawnBackgroundBalloons() {
+    const count = 22;
+    for (let i=0;i<count;i++){
+      const b = document.createElement('div');
+      b.className = 'bg-balloon';
+      const size = 12 + Math.random()*28;
+      b.style.width = size + 'px';
+      b.style.height = (size*1.2) + 'px';
+      b.style.left = (Math.random()*100) + 'vw';
+      b.style.top = (Math.random()*120 - 20) + 'vh';
+      const dur = 8 + Math.random()*10;
+      b.style.animation = `float ${dur}s ease-in-out ${Math.random()*-dur}s infinite`;
+      stage.appendChild(b);
+    }
+  }
+  spawnBackgroundBalloons();
+
+  function showMessage(newText){
+    textEl.classList.remove('show');
+    textEl.classList.add('hide');
+    setTimeout(()=>{
+      textEl.textContent = newText;
+      textEl.classList.remove('hide');
+      textEl.classList.add('show');
+    }, 450);
+  }
+
+  function buildPixelCake(){
+    const map = [
+      0,0,0,7,0,7,0,0,0,0,
+      0,0,0,7,0,7,0,0,0,0,
+      0,0,0,4,4,4,4,0,0,0,
+      0,0,0,0,4,0,0,0,0,0,
+      0,8,8,1,1,1,1,8,8,0,
+      0,1,1,1,1,1,1,1,1,0,
+      1,1,3,3,3,3,3,3,1,1,
+      1,3,3,3,3,3,3,3,3,1,
+      6,6,6,6,3,3,6,6,6,6,
+      6,6,6,6,6,6,6,6,6,6
+    ];
+    pixelCake.innerHTML = '';
+    for(let i=0;i<100;i++){
+      const cell = document.createElement('div');
+      cell.className = 'pixel p-' + map[i];
+      pixelCake.appendChild(cell);
+    }
+  }
+  buildPixelCake();
+
+  function burstConfetti(){
+    const colors = ['#ffde59','#ff79a8','#86e3ce','#ffd6f0','#9ad0ff','#ffa07a'];
+    for(let i=0;i<40;i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = (45 + Math.random()*10) + 'vw';
+      c.style.top = (35 + Math.random()*6) + 'vh';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), 2200);
+    }
+  }
+
+  document.body.addEventListener('click', () => {
+    if (bgm.paused){ bgm.play().catch(()=>{}); }
+    idx++;
+    if (idx < messages.length){
+      showMessage(messages[idx]);
+    } else {
+      textEl.style.display = 'none';
+      centerBalloon.classList.add('show');
+      setTimeout(()=>{
+        centerBalloon.classList.add('pop-anim');
+        popSound.play().catch(()=>{});
+        setTimeout(()=> burstConfetti(), 350);
+        setTimeout(()=>{
+          centerBalloon.style.display = 'none';
+          pixelCake.classList.add('show');
+          flame.style.display='block'; // lilin muncul bareng cake
+        }, 480);
+      }, 700);
+    }
+  }, {passive:true});
+
+  centerBalloon.style.display='none';
+  pixelCake.classList.remove('show');
+  setTimeout(()=> textEl.classList.add('show'), 80);
+</script>
+</body>
+</html>
